@@ -1,0 +1,26 @@
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        id:
+          type: number
+          description: The auto-generated user's id.
+        name:
+          type: string
+          description: The user's name. It must have between 5 and 50 characters.
+        email:
+          type: string
+          description: The user's e-mail.
+        password:
+          type: string
+          description: The user's password, used to authenticate to restrict services. It must contain at least 8 characters, 1 uppercase character, and 1 digit.
+      example:
+        id: 1
+        name: Sidney Sousa
+        email: sidney@email.com
+        password: Senha1234

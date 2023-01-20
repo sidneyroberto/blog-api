@@ -1,0 +1,142 @@
+paths:
+  /users:
+    post:
+      summary: Register a new user
+      tags: [users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/User'
+      responses:
+        201:
+          description: The registered user
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/User'
+        400:
+          description: It occurs when a user constraint is not respected
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      type: string
+                    example: ["A user with this e-mail already exists", "User name must have between 5 and 50 characters", "Invalid e-mail", "Password must contain at least 8 characters, 1 uppercase character, and 1 digit"]
+  /users/login:
+    post:
+      summary: Authenticate a user
+      tags: [users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: The user e-mail
+                password:
+                  type: string
+                  description: The user password
+              example:
+                email: sidney@email.com
+                password: Senha1234
+      responses:
+        200:
+          description: User sucessfuly authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorized:
+                    type: boolean
+                    description: Informs whether user is authorized
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        description: The authenticated user's id
+                      name:
+                        type: string
+                        description: The authenticated user's name
+                      email:
+                        type: string
+                        description: The authenticated user's e-mail
+                    example:
+                      id: 1
+                      email: sidney@email.com
+                      password: Senha1234
+                  token:
+                    type: string
+                    description: The authenticated user's JWT Token
+                    example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2NzQyNTI0MjEsImV4cCI6MTcwNTc4ODQyMSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.hADhrkAEQrbRwyVoWdm0xLvWhUf-cGMt5x2Kx0cBocI
+        401:
+          description: User not authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorized:
+                    type: boolean
+                    description: Informs whether user is authorized
+                    example: false
+                  message:
+                    type: string
+                    description: Authentication fail message
+                    example: User not authorized
+  /users/{email}:
+    delete:
+      summary: Delete a user by e-mail
+      tags: [users]
+      parameters:
+        - in: path
+          name: email
+          schema:
+            type: string
+          required: true
+          description: The user's e-mail
+          example: sidney@email.com
+      responses:
+        200:
+          description: User sucessfuly deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Sucess message
+                    example: User deleted
+        404:
+          description: No user found for the given e-mail
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: User not found
+        400:
+          description: The given e-mail is invalid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Invalid e-mail

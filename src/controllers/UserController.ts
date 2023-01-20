@@ -34,6 +34,16 @@ export class UserController {
     return user
   }
 
+  async deleteUserByEmail(email: string): Promise<boolean> {
+    const user = await this._repo.findOneBy({ email })
+    if (user) {
+      await this._repo.delete(user.id)
+      return true
+    }
+
+    return false
+  }
+
   static verifyToken(req: Request, res: Response, next: NextFunction) {
     let token = req.headers['authorization']
     if (token) {

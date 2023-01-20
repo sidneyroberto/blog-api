@@ -1,8 +1,10 @@
+import * as EmailValidator from 'email-validator'
+import { sign } from 'jsonwebtoken'
+import { Request, Response, Router } from 'express'
+
 import { UserController } from './../controllers/UserController'
 import { validate } from 'class-validator'
-import { Request, Response, Router } from 'express'
 import { User } from '../entities/User'
-import { sign } from 'jsonwebtoken'
 import { SECRET } from '../config/secret'
 
 export const userRouter = Router()
@@ -14,7 +16,7 @@ userRouter.post('/', async (req: Request, res: Response) => {
   const messages: string[] = []
 
   if (await userCtrl.userAlreadyExists(email)) {
-    messages.push('An user with this e-mail already exists')
+    messages.push('A user with this e-mail already exists')
   }
 
   const user: User = User.createUser(name, email, password)
@@ -51,4 +53,19 @@ userRouter.post('/login', async (req: Request, res: Response) => {
       message: 'User not authorized',
     })
   }
+})
+
+userRouter.delete('/:email', async (req: Request, res: Response) => {
+  const { email } = req.params
+
+  if (EmailValidator.validate(email)) {
+    const userDeleted = await userCtrl.deleteUserByEmail(email)
+    if (userDeleted) {
+      return res.status(200).json({ message: 'User deleted' })
+    }
+
+    return res.status(404).json({ message: 'User not found' })
+  }
+
+  return res.status(400).json({ message: 'Invalid e-mail' })
 })
