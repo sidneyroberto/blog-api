@@ -1,7 +1,6 @@
-# Awesome Project Build with TypeORM
+# blog-api
 
-Steps to run this project:
+Passos para executar a API:
 
-1. Run `npm i` command
-2. Setup database settings inside `data-source.ts` file
-3. Run `npm start` command
+1. Execute o comando `npm i` ou `yarn`
+2. Execute o comando `yarn start` ou `npm start`
