@@ -3,7 +3,6 @@ import { sign } from 'jsonwebtoken'
 import { Request, Response, Router } from 'express'
 
 import { UserController } from './../controllers/UserController'
-import { validate } from 'class-validator'
 import { User } from '../entities/User'
 import { SECRET } from '../config/secret'
 import { validateEntity } from '../utils/validation'

@@ -17,7 +17,7 @@ components:
           type: number
           description: The id of the user/author of the post
       example:
-        title: Learning programming logics with Go
+        title: Learning programming with Go
         content: Go is a very popular programming language, which is great for learning programming logics.
         userId: 1
     PostCreatedResponse:
@@ -32,7 +32,7 @@ components:
               description: The auto-generated post's id.
           example:
             id: 1
-            title: Learning programming logics with Go
+            title: Learning programming with Go
             content: Go is a very popular programming language, which is great for learning programming logics.
             userId: 1
     PostCreationFailResponse:

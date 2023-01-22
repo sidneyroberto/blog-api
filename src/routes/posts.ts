@@ -4,12 +4,14 @@ import { UserController } from '../controllers/UserController'
 import { Post } from '../entities/Post'
 import { validateEntity } from '../utils/validation'
 import { User } from '../entities/User'
+import { verifyToken } from '../utils/authentication'
+import { decode } from 'jsonwebtoken'
 
 export const postRouter = Router()
 const postCtrl = new PostController()
 const userCtrl = new UserController()
 
-postRouter.post('/', async (req: Request, res: Response) => {
+postRouter.post('/', verifyToken, async (req: Request, res: Response) => {
   const { title, content, userId } = req.body
 
   let messages: string[] = []
@@ -66,13 +68,17 @@ postRouter.get('/user/:userId', async (req: Request, res: Response) => {
   return res.status(400).json({ message: 'Invalid user id' })
 })
 
-postRouter.delete('/:id', async (req: Request, res: Response) => {
+postRouter.delete('/:id', verifyToken, async (req: Request, res: Response) => {
   const { id } = req.params
+  let token = req.headers['authorization']
+  token = token.substring(7, token.length)
+  const tokenPayload = decode(token)
 
   const idNumber = parseInt(id)
   if (!isNaN(idNumber)) {
-    const deleted = await postCtrl.delete(idNumber)
-    if (deleted) {
+    const post = await postCtrl.findById(idNumber)
+    if (post && post.user.email == tokenPayload['user']) {
+      await postCtrl.delete(idNumber)
       return res.status(200).json({ message: 'Post deleted' })
     }
 

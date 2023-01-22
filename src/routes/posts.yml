@@ -3,6 +3,8 @@ paths:
     post:
       summary: Register a new post
       tags: [posts]
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -23,6 +25,8 @@ paths:
               schema:
                 type: object
                 $ref: "#components/schemas/PostCreationFailResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
   /posts/{id}:
     get:
       summary: Retrieves a post by its id
@@ -57,6 +61,8 @@ paths:
     delete:
       summary: Deletes a post by its id
       tags: [posts]
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -84,6 +90,8 @@ paths:
             application/json:
               schema:
                 $ref: "#components/schemas/PostNotFoundResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
   /posts/user/{userId}:
     get:
       summary: Retrieves all posts from the user who is related to the received id

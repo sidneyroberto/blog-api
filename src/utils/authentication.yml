@@ -1,0 +1,22 @@
+components:
+  schemas:
+    UserNotAuthorized:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that no user is not authorized to perform requested action
+      example:
+        message: User not authorized
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: "#components/schemas/UserNotAuthorized"

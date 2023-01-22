@@ -34,7 +34,7 @@ paths:
               $ref: "#components/schemas/LoginCredentials"
       responses:
         200:
-          description: User sucessfuly authenticated
+          description: User sucessfuly authenticated. Access token is valid for 1 hour.
           content:
             application/json:
               schema:

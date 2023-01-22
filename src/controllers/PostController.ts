@@ -11,6 +11,8 @@ export class PostController {
 
   async save(post: Post): Promise<Post> {
     const savedPost = await this._repo.save(post)
+    const user = savedPost.user.clear()
+    savedPost.user = user
     return savedPost
   }
 
@@ -26,17 +28,16 @@ export class PostController {
   }
 
   async findById(id: number): Promise<Post> {
-    const post = await this._repo.findOneBy({ id })
+    const post = await this._repo.findOne({
+      where: {
+        id,
+      },
+      relations: ['user'],
+    })
     return post
   }
 
-  async delete(id: number): Promise<boolean> {
-    const count = await this._repo.count({ where: { id } })
-    if (count > 0) {
-      await this._repo.delete(id)
-      return true
-    }
-
-    return false
+  async delete(id: number) {
+    await this._repo.delete(id)
   }
 }
