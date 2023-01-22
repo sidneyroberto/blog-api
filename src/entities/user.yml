@@ -7,9 +7,6 @@ components:
         - email
         - password
       properties:
-        id:
-          type: number
-          description: The auto-generated user's id.
         name:
           type: string
           description: The user's name. It must have between 5 and 50 characters.
@@ -20,7 +17,114 @@ components:
           type: string
           description: The user's password, used to authenticate to restrict services. It must contain at least 8 characters, 1 uppercase character, and 1 digit.
       example:
-        id: 1
         name: Sidney Sousa
         email: sidney@email.com
         password: Senha1234
+    UserCreatedResponse:
+      allOf:
+        - $ref: "#components/schemas/User"
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: number
+              description: The auto-generated user's id
+          example:
+            id: 1
+            name: Sidney Sousa
+            email: sidney@email.com
+            password: Senha1234
+    UserCreationFailResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+          example:
+            [
+              "A user with this e-mail already exists",
+              "User name must have between 5 and 50 characters",
+              "Invalid e-mail",
+              "Password must contain at least 8 characters, 1 uppercase character, and 1 digit",
+            ]
+    LoginCredentials:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: The user's e-mail.
+        password:
+          type: string
+          description: The user's password, used to authenticate to restrict services. It must contain at least 8 characters, 1 uppercase character, and 1 digit.
+      example:
+        email: sidney@email.com
+        password: Senha1234
+    LoginSucessResponse:
+      type: object
+      properties:
+        authorized:
+          type: boolean
+          description: Informs whether user is authorized
+        user:
+          type: object
+          properties:
+            id:
+              type: number
+              description: The authenticated user's id
+            name:
+              type: string
+              description: The authenticated user's name
+            email:
+              type: string
+              description: The authenticated user's e-mail
+        token:
+          type: string
+          description: The authenticated user's JWT Token
+      example:
+        authorized: true
+        user:
+          id: 1
+          name: Sidney Sousa
+          email: sidney@email.com
+        token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2NzQyNTI0MjEsImV4cCI6MTcwNTc4ODQyMSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.hADhrkAEQrbRwyVoWdm0xLvWhUf-cGMt5x2Kx0cBocI
+    LoginFailResponse:
+      type: object
+      properties:
+        authorized:
+          type: boolean
+          description: Informs whether user is authorized
+        message:
+          type: string
+          description: Message informing that authentication failed
+      example:
+        authorized: false
+        message: User not authorized
+    UserDeletedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that user was successfully deleted
+      example:
+        message: User deleted
+    InvalidUserEmailResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that received user's email is invalid
+      example:
+        message: Invalid email
+    NoUserFoundResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that no user was found
+      example:
+        message: User not found

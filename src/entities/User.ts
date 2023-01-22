@@ -3,9 +3,10 @@ import { IsEmail, Length, Validate } from 'class-validator'
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 import { Post } from './Post'
 import { pbkdf2Sync, randomBytes } from 'crypto'
+import { BaseEntity } from './BaseEntity'
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -16,7 +17,7 @@ export class User {
   name: string
 
   @Column({ unique: true })
-  @IsEmail({}, { message: 'Invalid e-mail' })
+  @IsEmail({}, { message: 'Invalid email' })
   email: string
 
   @Column()

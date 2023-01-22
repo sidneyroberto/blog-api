@@ -1,0 +1,83 @@
+components:
+  schemas:
+    Post:
+      type: object
+      required:
+        - title
+        - content
+        - userId
+      properties:
+        title:
+          type: string
+          description: The post's title. It must have between 5 and 30 characters.
+        content:
+          type: string
+          description: The post's content. It must have between 5 and 144 characters.
+        userId:
+          type: number
+          description: The id of the user/author of the post
+      example:
+        title: Learning programming logics with Go
+        content: Go is a very popular programming language, which is great for learning programming logics.
+        userId: 1
+    PostCreatedResponse:
+      allOf:
+        - $ref: "#components/schemas/Post"
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: number
+              description: The auto-generated post's id.
+          example:
+            id: 1
+            title: Learning programming logics with Go
+            content: Go is a very popular programming language, which is great for learning programming logics.
+            userId: 1
+    PostCreationFailResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+          example:
+            [
+              "userId must be an integer number",
+              "User not found",
+              "Post title must have between 5 and 30 characters",
+              "Post content must have between 5 and 144 characters",
+            ]
+    PostNotFoundResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that no post was found
+      example:
+        message: Post not found
+    InvalidPostIdResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that received post's id is invalid
+      example:
+        message: Invalid id
+    InvalidUserIdResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that received user's id is invalid
+      example:
+        message: Invalid user id
+    PostDeletedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message informing that post was successfully deleted
+      example:
+        message: Post deleted

@@ -1,0 +1,110 @@
+paths:
+  /posts:
+    post:
+      summary: Register a new post
+      tags: [posts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Post"
+      responses:
+        201:
+          description: The registered post
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PostCreatedResponse"
+        400:
+          description: It occurs when a post constraint is not respected
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#components/schemas/PostCreationFailResponse"
+  /posts/{id}:
+    get:
+      summary: Retrieves a post by its id
+      tags: [posts]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+          required: true
+          description: The posts's id
+          example: 1
+      responses:
+        200:
+          description: The post corresponding to the received id
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PostCreatedResponse"
+        400:
+          description: The received post's id is invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/InvalidPostIdResponse"
+        404:
+          description: No post found for the received id
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PostNotFoundResponse"
+    delete:
+      summary: Deletes a post by its id
+      tags: [posts]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+          required: true
+          description: The posts's id
+          example: 1
+      responses:
+        200:
+          description: Post successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PostDeletedResponse"
+        400:
+          description: The received post's id is invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/InvalidPostIdResponse"
+        404:
+          description: No post found for the received id
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PostNotFoundResponse"
+  /posts/user/{userId}:
+    get:
+      summary: Retrieves all posts from the user who is related to the received id
+      tags: [posts]
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: number
+          required: true
+          description: The id of the user that created the posts
+          example: 1
+      responses:
+        200:
+          description: All the posts created by the related user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      $ref: "#components/schemas/PostCreatedResponse"

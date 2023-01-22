@@ -6,6 +6,7 @@ import { UserController } from './../controllers/UserController'
 import { validate } from 'class-validator'
 import { User } from '../entities/User'
 import { SECRET } from '../config/secret'
+import { validateEntity } from '../utils/validation'
 
 export const userRouter = Router()
 const userCtrl = new UserController()
@@ -13,17 +14,15 @@ const userCtrl = new UserController()
 userRouter.post('/', async (req: Request, res: Response) => {
   const { email, name, password } = req.body
 
-  const messages: string[] = []
+  let messages: string[] = []
 
   if (await userCtrl.userAlreadyExists(email)) {
     messages.push('A user with this e-mail already exists')
   }
 
   const user: User = User.createUser(name, email, password)
-  const errors = await validate(user)
-  if (errors.length > 0) {
-    errors.forEach((err) => messages.push(Object.values(err.constraints)[0]))
-  }
+  const errorMessages = await validateEntity(user)
+  messages = [...messages, ...errorMessages]
 
   if (messages.length > 0) {
     return res.status(400).json({ messages })

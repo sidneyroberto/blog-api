@@ -34,6 +34,11 @@ export class UserController {
     return user
   }
 
+  async findUserById(id: number): Promise<User> {
+    const user = await this._repo.findOneBy({ id })
+    return user
+  }
+
   async deleteUserByEmail(email: string): Promise<boolean> {
     const user = await this._repo.findOneBy({ email })
     if (user) {
