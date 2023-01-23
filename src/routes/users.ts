@@ -16,7 +16,7 @@ userRouter.post('/', async (req: Request, res: Response) => {
   let messages: string[] = []
 
   if (await userCtrl.userAlreadyExists(email)) {
-    messages.push('A user with this e-mail already exists')
+    messages.push('A user with this email already exists')
   }
 
   const user: User = User.createUser(name, email, password)

@@ -26,7 +26,7 @@ export class User extends BaseEntity {
   @Column()
   salt: string
 
-  @OneToMany(() => Post, (post) => post.user, { cascade: true })
+  @OneToMany(() => Post, (post) => post.user)
   posts: Post[]
 
   @Validate(PasswordValidator)

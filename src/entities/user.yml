@@ -44,9 +44,9 @@ components:
             type: string
           example:
             [
-              "A user with this e-mail already exists",
+              "A user with this email already exists",
               "User name must have between 5 and 50 characters",
-              "Invalid e-mail",
+              "Invalid email",
               "Password must contain at least 8 characters, 1 uppercase character, and 1 digit",
             ]
     LoginCredentials:
