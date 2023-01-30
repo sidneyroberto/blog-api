@@ -17,7 +17,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/PostCreatedResponse"
+                type: object
+                properties:
+                  post:
+                    $ref: "#components/schemas/PostCreatedResponse"
         400:
           description: It occurs when a post constraint is not respected
           content:
@@ -45,7 +48,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/PostCreatedResponse"
+                type: object
+                properties:
+                  post:
+                    $ref: "#components/schemas/PostCreatedResponse"
         400:
           description: The received post's id is invalid
           content:

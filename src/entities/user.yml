@@ -21,20 +21,25 @@ components:
         email: sidney@email.com
         password: Senha1234
     UserCreatedResponse:
-      allOf:
-        - $ref: "#components/schemas/User"
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              type: number
-              description: The auto-generated user's id
-          example:
-            id: 1
-            name: Sidney Sousa
-            email: sidney@email.com
-            password: Senha1234
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: number
+          description: The auto-generated id from the registered user.
+        name:
+          type: string
+          description: The user's name. It must have between 5 and 50 characters.
+        email:
+          type: string
+          description: The user's e-mail.
+      example:
+        id: 1
+        name: Sidney Sousa
+        email: sidney@email.com
     UserCreationFailResponse:
       type: object
       properties:

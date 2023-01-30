@@ -15,7 +15,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#components/schemas/UserCreatedResponse"
+                type: object
+                properties:
+                  user:
+                    $ref: "#components/schemas/UserCreatedResponse"
         400:
           description: It occurs when a user constraint is not respected
           content:

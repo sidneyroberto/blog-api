@@ -1,4 +1,4 @@
-import { verify } from 'jsonwebtoken'
+import { decode, verify } from 'jsonwebtoken'
 import { SECRET } from '../config/secret'
 import { NextFunction, Request, Response } from 'express'
 
@@ -18,4 +18,11 @@ export const verifyToken = (
   }
 
   return res.status(401).json({ message: 'User not authorized' })
+}
+
+export const decodeUserEmailFromToken = (token: string) => {
+  const tokenCode = token.substring(7, token.length)
+  const tokenPayload = decode(tokenCode)
+  const userEmail = tokenPayload['user']
+  return userEmail
 }

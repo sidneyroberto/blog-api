@@ -5,7 +5,6 @@ components:
       required:
         - title
         - content
-        - userId
       properties:
         title:
           type: string
@@ -13,28 +12,30 @@ components:
         content:
           type: string
           description: The post's content. It must have between 5 and 144 characters.
-        userId:
-          type: number
-          description: The id of the user/author of the post
       example:
         title: Learning programming with Go
         content: Go is a very popular programming language, which is great for learning programming logics.
-        userId: 1
     PostCreatedResponse:
       allOf:
         - $ref: "#components/schemas/Post"
         - type: object
           required:
             - id
+            - user
           properties:
             id:
               type: number
-              description: The auto-generated post's id.
+              description: The auto-generated id from the registered post.
+            user:
+              $ref: "#components/schemas/UserCreatedResponse"
           example:
             id: 1
             title: Learning programming with Go
             content: Go is a very popular programming language, which is great for learning programming logics.
-            userId: 1
+            user:
+              id: 1
+              name: Sidney Sousa
+              email: sidney@email.com
     PostCreationFailResponse:
       type: object
       properties:
@@ -44,8 +45,6 @@ components:
             type: string
           example:
             [
-              "userId must be an integer number",
-              "User not found",
               "Post title must have between 5 and 30 characters",
               "Post content must have between 5 and 144 characters",
             ]
