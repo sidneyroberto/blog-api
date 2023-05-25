@@ -9,6 +9,9 @@ Passos para executar a API:
 
 Após executar a API, é possível acessar a documentação por meio da url:
 
+#Video no Youtube sobre o treinamento
+https://www.youtube.com/watch?v=PQH6tdGSQcE&list=WL
+
 ```
 http://localhost:3000/docs
 ```
